@@ -23,14 +23,14 @@ module "machinetest" {
   node_memory       = 3072
 }
 ```
-Il est possible de récupérer la/les adresse.s des machines déployées avec ce module via l'output : `node_name`.
+Il est possible de récupérer la/les adresse.s des machines déployées avec ce module via l'output : `node_ip`.
 
 Ex: 
 ```hcl
 resource "null_resource" "playbooks" {
   provisioner "local-exec" {
     when    = create
-    command = "ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook i \"module.machinetest[0].node_name\" test-playbook.yml"
+    command = "ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook i \"module.machinetest[0].node_ip\" test-playbook.yml"
   }
 }
 ```
