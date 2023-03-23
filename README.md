@@ -7,7 +7,8 @@ Ce projet est un module terraform spécifique à Proxmox permettant de déployer
 ```hcl
 module "machinetest" {
   count             = 1
-  source            = "github.com/QJoly/terraform-modules-proxmox"
+  source            = "QJoly/proxmox/module"
+  version           = "1.0.0"
   node_name         = "master-${count.index}-tf"
   node_target       = var.node
   node_qemuga       = 1
@@ -22,14 +23,14 @@ module "machinetest" {
   node_memory       = 3072
 }
 ```
-Il est possible de récupérer la/les adresse.s des machines déployés avec ce module via l'output : `vm_ipaddress`.
+Il est possible de récupérer la/les adresse.s des machines déployées avec ce module via l'output : `node_name`.
 
 Ex: 
 ```hcl
 resource "null_resource" "playbooks" {
   provisioner "local-exec" {
     when    = create
-    command = "ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook i \"module.machinetest[0].vm_ipaddress\" test-playbook.yml"
+    command = "ANSIBLE_FORCE_COLOR=true ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook i \"module.machinetest[0].node_name\" test-playbook.yml"
   }
 }
 ```
